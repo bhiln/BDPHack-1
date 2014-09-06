@@ -141,6 +141,8 @@ public class MainActivity extends ActionBarActivity
                 Intent i = new Intent(this, UserSettingsActivity.class);
                 startActivityForResult(i, RESULT_SETTINGS);
                 break;
+            case R.id.pref_uber_login:
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

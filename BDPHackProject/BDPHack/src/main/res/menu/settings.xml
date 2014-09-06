@@ -7,4 +7,8 @@
         android:title="@string/menu_settings"
         android:icon="@android:drawable/ic_menu_preferences"/>
 
+    <item android:id="@+id/pref_uber_login"
+        android:title="@string/pref_uber_login"
+        android:orderInCategory="101" />
+
 </menu>

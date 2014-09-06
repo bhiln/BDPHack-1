@@ -5,4 +5,8 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
+    <item android:id="@+id/pref_uber_login"
+        android:title="@string/pref_uber_login"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
 </menu>
