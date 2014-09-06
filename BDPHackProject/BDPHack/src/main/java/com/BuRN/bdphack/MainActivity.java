@@ -17,10 +17,14 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.content.Intent;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    private static final int RESULT_SETTINGS = 1;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -44,6 +48,30 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
+
+    private void uberAuthentication(){
+
+    }
+
+    private void showUserSettings() {
+        SharedPreferences sharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("\n Username: "
+                + sharedPrefs.getString("prefUsername", "NULL"));
+
+        builder.append("\n Send report:"
+                + sharedPrefs.getBoolean("prefSendReport", false));
+
+        builder.append("\n Sync Frequency: "
+                + sharedPrefs.getString("prefSyncFrequency", "NULL"));
+
+        TextView settingsTextView = (TextView) findViewById(R.id.textUserSettings);
+
+        settingsTextView.setText(builder.toString());
     }
 
     @Override
@@ -91,13 +119,28 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RESULT_SETTINGS:
+                showUserSettings();
+                break;
+
+        }
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_settings:
-                return true;
+                Intent i = new Intent(this, UserSettingsActivity.class);
+                startActivityForResult(i, RESULT_SETTINGS);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -142,6 +185,8 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
+
     }
 
 }
